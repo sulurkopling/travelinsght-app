@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tentang TravelInsight</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f8ff;
+      color: #023e8a;
+    }
+    .navbar {
+      background: #0077b6;
+    }
+    .nav-link {
+      color: #fff !important;
+      opacity: 0.85;
+      transition: 0.3s;
+    }
+    .nav-link:hover,
+    .nav-link.active {
+      color: #90e0ef !important;
+      opacity: 1;
+      font-weight: 600;
+      border-bottom: 2px solid #90e0ef;
+    }
+    .about-section {
+      padding: 80px 20px;
+    }
+    .about-section h2 {
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .about-section p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    footer {
+      background: #023e8a;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+    }
+    .feature-box {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      height: 100%;
+    }
+    .feature-box:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      color: #0077b6;
+      margin-bottom: 15px;
+    }
+    .developer-profile {
+      text-align: center;
+      padding: 40px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    .developer-profile img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 5px solid #0077b6;
+    }
+    .testimonial-card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      height: 100%;
+    }
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 15px;
+    }
+    .testimonial-author {
+      font-weight: 600;
+      color: #0077b6;
+    }
+    .faq-item {
+      margin-bottom: 20px;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .faq-question {
+      background: #0077b6;
+      color: white;
+      padding: 15px 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-answer {
+      padding: 15px 20px;
+      background: white;
+      display: none; /* Hidden by default */
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 4px;
+      background: #0077b6;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="/home">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" height="40" class="me-2">
+        TravelInsight
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="/home" class="nav-link {% if active_page == 'home' %}active{% endif %}">Beranda</a>
+          </li>
+          <li class="nav-item">
+            <a href="/search" class="nav-link {% if active_page == 'search' %}active{% endif %}">Pencarian</a>
+          </li>
+          <li class="nav-item">
+            <a href="/about" class="nav-link {% if active_page == 'about' %}active{% endif %}">Tentang</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="about-section container">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <h2>Tentang Kami</h2>
+        <p><b>TravelInsight</b> adalah platform yang membantu wisatawan menemukan tempat wisata terbaik dengan data terkini berdasarkan penilaian pengguna. Kami menggabungkan teknologi dan informasi publik untuk memberikan rekomendasi akurat, cepat, dan mudah dipahami.</p>
+        <p>Visi kami adalah menjadi <b>panduan perjalanan digital</b> yang memudahkan siapa pun menjelajahi dunia dengan cerdas dan berwawasan.</p>
+      </div>
+      <div class="col-md-6">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Travel" class="img-fluid rounded shadow">
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container">
+      <h2 class="section-title">Mengapa Memilih TravelInsight?</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="bi bi-search"></i>
+            </div>
+            <h4>Pencarian Cerdas</h4>
+            <p>TravelInsight memanfaatkan teknologi SerpApi dari Google untuk menghadirkan hasil pencarian wisata yang akurat, relevan, dan selalu diperbarui. 
+              Dengan algoritma cerdas, sistem kami menyesuaikan rekomendasi destinasi sesuai dengan minat dan kebutuhan Anda.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="bi bi-star-fill"></i>
+            </div>
+            <h4>Ulasan Terpercaya</h4>
+            <p>TravelInsight menampilkan ulasan wisata yang diambil langsung dari sumber resmi Google melalui integrasi SerpApi. Selain itu, kami juga menyajikan ringkasan berupa tabel atau diagram berisi 10 destinasi wisata teratas di setiap kota berdasarkan rating tertinggi. 
+              Dengan begitu, Anda dapat dengan mudah menemukan tempat wisata terbaik yang paling direkomendasikan oleh para pengunjung.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="bi bi-map"></i>
+            </div>
+            <h4>Peta Interaktif</h4>
+            <p>Temukan dan jelajahi destinasi wisata langsung melalui peta interaktif yang terhubung ke Google Maps. Dengan fitur ini, Anda dapat melihat lokasi, rute perjalanan, serta informasi penting lainnya secara real-time untuk memudahkan perencanaan wisata Anda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<section class="py-5">
+  <div class="container">
+    <h2 class="section-title">Tentang Pengembang</h2>
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="developer-profile">
+        
+<img src="{{ url_for('static', filename='foto-saya.jpg') }}"
+     alt="Foto Pengembang"
+     style="cursor:pointer; width:180px; height:180px; object-fit:cover; border-radius:50%;"
+     data-bs-toggle="modal"
+     data-bs-target="#fotoModal">
+
+          
+          <h4>ARYO BIMO PAMUNGKAS</h4>
+          <p class="text-muted">Founder & Lead Developer</p>
+          <p>TravelInsight lahir dari perpaduan antara kecintaan saya terhadap traveling dan teknologi. 
+            Melalui integrasi dengan SerpApi dari Google, saya ingin menghadirkan platform yang membantu pengguna menemukan berbagai destinasi wisata terbaik di setiap kota dengan data yang akurat dan selalu diperbarui. 
+            Proyek ini adalah dedikasi saya untuk mempermudah siapa pun merencanakan perjalanan yang bermakna, informatif, dan menyenangkan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="fotoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-transparent border-0">
+      <img src="{{ url_for('static', filename='foto-saya.jpg') }}" 
+           class="img-fluid rounded" alt="Foto Besar">
+    </div>
+  </div>
+</div>
+
+  <section class="py-5">
+    <div class="container">
+      <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Bagaimana cara saya menggunakan TravelInsight?</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>Cukup buka aplikasi atau situs web kami, masukkan destinasi yang Anda minati atau kota yang ingin anda kunjungi, 
+                dan jelajahi informasi lengkap yang kami sediakan. Anda juga dapat melihat grafik tabel 10 wisata teratas berdasarkan rating.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Apakah TravelInsight bisa digunakan untuk mencari wisata diseluruh dunia?</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>Ya, tentu bisa! TravelInsight terhubung dengan layanan Google melalui SerpApi, sehingga dapat menampilkan informasi dan rekomendasi tempat wisata dari berbagai belahan dunia. Data yang ditampilkan selalu diperbarui secara berkala, 
+                memastikan pengguna mendapatkan informasi terkini dan akurat tentang destinasi wisata global.</p>
+            </div>
+          </div>
+          <!-- FAQ Baru -->
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Dari mana sumber data ulasan TravelInsight?</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>TravelInsight memperoleh data ulasan melalui integrasi dengan Google melalui SerpApi. API ini memungkinkan kami untuk menampilkan informasi dan ulasan tempat wisata secara real-time langsung dari hasil pencarian Google. 
+                Kami terus mengoptimalkan sistem agar data yang ditampilkan tetap akurat, relevan, dan selalu diperbarui. Ke depannya, pengguna juga akan dapat menulis dan membagikan ulasan langsung di TravelInsight!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 TravelInsight</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // FAQ accordion
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+          const answer = question.nextElementSibling;
+          const icon = question.querySelector('i');
+          
+          // Toggle answer visibility
+          answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+          
+          // Rotate icon
+          icon.style.transform = answer.style.display === 'block' ? 'rotate(180deg)' : 'rotate(0)';
+          icon.style.transition = 'transform 0.3s';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

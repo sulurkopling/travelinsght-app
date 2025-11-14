@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelInsight | Pencarian Wisata</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #00b4d8, #0077b6);
+      color: #023e8a;
+      min-height: 100vh;
+    }
+    .navbar {
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .nav-link {
+      color: #fff !important;
+      opacity: 0.8;
+      transition: 0.3s;
+    }
+    .nav-link:hover, .nav-link.active-nav {
+      color: #90e0ef !important;
+      opacity: 1;
+      border-bottom: 2px solid #90e0ef;
+    }
+    .content {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-top: 30px;
+    }
+    .card {
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .card:hover { transform: scale(1.03); }
+    .card-img-top { height: 200px; object-fit: cover; width: 100%; }
+    .card-body {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-title { font-size: 1.05rem; font-weight: 600; color: #023e8a; }
+    .card-text { font-size: 0.9rem; color: #555; }
+    .btn-primary {
+      background-color: #0077b6;
+      border: none;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .btn-primary:hover { background-color: #0096c7; }
+    .chart-container {
+      margin-top: 40px;
+      background: #f1faff;
+      padding: 20px;
+      border-radius: 15px;
+    }
+    footer {
+      text-align: center;
+      color: white;
+      opacity: 0.8;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Navbar dengan logika aktif otomatis -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="/home">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" height="40" class="me-2">
+        TravelInsight
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="/home" class="nav-link {% if active_page == 'home' %}active-nav{% endif %}">Beranda</a>
+          </li>
+          <li class="nav-item">
+            <a href="/search" class="nav-link {% if active_page == 'search' %}active-nav{% endif %}">Pencarian</a>
+          </li>
+          <li class="nav-item">
+            <a href="/about" class="nav-link {% if active_page == 'about' %}active-nav{% endif %}">Tentang</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container content">
+    <h2 class="text-center mb-4">Cari Tempat Wisata</h2>
+    <form method="POST" class="d-flex justify-content-center">
+      <input type="text" name="kota" class="form-control w-50 me-2" placeholder="Masukkan nama kota atau wisata" value="{{ kota or '' }}">
+      <button type="submit" class="btn btn-primary">🔍 Cari</button>
+    </form>
+
+    {% if pesan %}
+      <div class="alert alert-warning text-center mt-4">{{ pesan }}</div>
+    {% endif %}
+
+    {% if tempat_wisata %}
+      <h4 class="mt-5">Hasil untuk: <span class="text-primary">{{ kota }}</span></h4>
+      <div class="row mt-4">
+        {% for tempat in tempat_wisata %}
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <img src="{{ tempat.thumbnail }}" class="card-img-top" alt="{{ tempat.name }}">
+              <div class="card-body">
+                <h5 class="card-title">{{ tempat.name }}</h5>
+                <p class="card-text"><b>Rating:</b> {{ tempat.rating }}</p>
+                <p class="card-text text-muted small">{{ tempat.address }}</p>
+                <a href="{{ url_for('detail', id=tempat.id, kota=kota) }}" class="btn btn-primary btn-sm w-100">Lihat Detail</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="chart-container">
+        <h5 class="text-center mb-3">Top 10 Wisata Terbaik di {{ kota }}</h5>
+        <canvas id="ratingChart"></canvas>
+      </div>
+    {% endif %}
+  </div>
+
+  <footer>
+    <p>© 2025 TravelInsight | Jelajahi Dunia dengan Cerdas</p>
+  </footer>
+
+  {% if chart_labels %}
+  <script>
+    const ctx = document.getElementById('ratingChart');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: {{ chart_labels | tojson }},
+        datasets: [{
+          label: 'Rating',
+          data: {{ chart_values | tojson }},
+          backgroundColor: '#00b4d8'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true, max: 5 } }
+      }
+    });
+  </script>
+  {% endif %}
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
